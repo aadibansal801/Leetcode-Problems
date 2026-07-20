@@ -32,23 +32,4 @@ public:
         }
         return false;
     }
-
-    // bool solve(int i, int k, vector<int>&stones){
-    //     int n = stones.size();
-    //     if(i == n-1){
-    //         return true;
-    //     }
-    //     if(dp[i][k]!=-1) return dp[i][k];
-    //     for(int jump = k-1; jump<=k+1; jump++){
-    //         if(jump<=0) continue;
-    //         int target = stones[i] + jump;
-    //         if(mp.count(target)){
-    //             int next = mp[target];
-    //             if(solve(next,jump,stones)){
-    //                 return dp[i][k] = 1;
-    //             }
-    //         }
-    //     }
-    //     return dp[i][k] = 0;
-    // }
 };
