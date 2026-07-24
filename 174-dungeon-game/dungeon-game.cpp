@@ -6,20 +6,22 @@ public:
     int calculateMinimumHP(vector<vector<int>>& dungeon) {
         int n = dungeon.size();
         int m = dungeon[0].size();
-        dp.assign(n, vector<int>(m,0));
-        dp[n-1][m-1] = max(1, 1-dungeon[n-1][m-1]);
+        vector<int>next(m,0);
+        next[m-1] = max(1, 1-dungeon[n-1][m-1]);
         for(int i = n-1; i>=0; i--){
             for(int j = m-1; j>=0; j--){
-                if(i == n-1 && j == m-1) continue;
+                if(i == n-1 && j == m-1) {
+                    continue;
+                }
                 int right,down;
-                if(j+1<m) right = dp[i][j+1];
+                if(j+1<m) right = next[j+1];
                 else right = INT_MAX;
-                if(i+1<n) down = dp[i+1][j];
+                if(i+1<n) down = next[j];
                 else down = INT_MAX;
                 int need = min(right,down) - dungeon[i][j];
-                dp[i][j] = max(1, need);
+                next[j] = max(1, need);
             }
         }
-        return dp[0][0];
+        return next[0];
     }
 };
