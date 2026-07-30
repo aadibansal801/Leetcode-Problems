@@ -8,11 +8,6 @@ public:
                 pq.pop();
             }
         }
-        vector<int>ans;
-        while(!pq.empty()){
-            ans.push_back(pq.top());
-            pq.pop();
-        }
-        return ans[0];
+        return pq.top();
     }
 };
