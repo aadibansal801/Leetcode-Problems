@@ -1,10 +1,10 @@
 class Solution {
 public:
     const int mod = 1e9+7;
-    vector<vector<vector<int>>>dp;
 
     int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
-        dp.assign(maxMove+1,vector<vector<int>>(m,vector<int>(n,0)));
+        vector<vector<int>>prev(m,vector<int>(n,0)); //dp[moves-1]
+        vector<vector<int>>curr(m,vector<int>(n,0)); //dp[moves]
         int dr[] = {1,-1,0,0};
         int dc[] = {0,0,1,-1};
         for(int moves = 1; moves<=maxMove; moves++){
@@ -15,16 +15,16 @@ public:
                         int nr = i + dr[k];
                         int nc = j + dc[k];
                         if(nr<0||nr>=m||nc<0||nc>=n){
-                            ways++;
+                            ways = (ways+1)%mod;
                         }else{
-                            ways+=dp[moves-1][nr][nc];
+                            ways = (ways + prev[nr][nc])%mod;
                         }
                     }
-                    ways%=mod;
-                    dp[moves][i][j] = ways;
+                    curr[i][j] = ways;
                 }
             }
+            prev=curr;
         }
-        return dp[maxMove][startRow][startColumn];
+        return prev[startRow][startColumn];
     }
 };
