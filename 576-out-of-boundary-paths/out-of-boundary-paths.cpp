@@ -1,26 +1,30 @@
 class Solution {
 public:
     const int mod = 1e9+7;
-    int rows,cols;
     vector<vector<vector<int>>>dp;
 
-    int solve(int i, int j, int movesLeft){
-        if(i<0 || j< 0 || i>=rows || j>=cols) return 1;
-        if(movesLeft == 0) return 0;
-        if(dp[i][j][movesLeft]!=-1) return dp[i][j][movesLeft];
-        long long ans = 0;
-        ans = (ans + solve(i+1,j,movesLeft-1))%mod;
-        ans = (ans + solve(i,j+1,movesLeft-1))%mod;
-        ans = (ans + solve(i-1,j,movesLeft-1))%mod;
-        ans = (ans + solve(i,j-1,movesLeft-1))%mod;
-
-        return dp[i][j][movesLeft] = ans;
-    }
-
     int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
-        rows = m;
-        cols = n;
-        dp.assign(m,vector<vector<int>>(n,vector<int>(maxMove + 1,-1)));
-        return solve(startRow, startColumn, maxMove);
+        dp.assign(maxMove+1,vector<vector<int>>(m,vector<int>(n,0)));
+        int dr[] = {1,-1,0,0};
+        int dc[] = {0,0,1,-1};
+        for(int moves = 1; moves<=maxMove; moves++){
+            for(int i = 0; i<m; i++){
+                for(int j = 0; j<n; j++){
+                    long long ways = 0;
+                    for(int k = 0; k<4; k++){
+                        int nr = i + dr[k];
+                        int nc = j + dc[k];
+                        if(nr<0||nr>=m||nc<0||nc>=n){
+                            ways++;
+                        }else{
+                            ways+=dp[moves-1][nr][nc];
+                        }
+                    }
+                    ways%=mod;
+                    dp[moves][i][j] = ways;
+                }
+            }
+        }
+        return dp[maxMove][startRow][startColumn];
     }
 };
