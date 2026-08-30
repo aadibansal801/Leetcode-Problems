@@ -4,30 +4,32 @@ public:
     int minOperations(vector<int>& nums, int sum) {
         int n = nums.size();
         const int INF = 10000;
-        vector<vector<int>>dp(n+1,vector<int>(sum+1, INF));
-        dp[n][0] = 0;//base case
+        vector<int>next(sum+1, INF);
+        vector<int>curr(sum+1, INF);
+        next[0] = 0;
         for(int i = n-1; i>=0; i--){
             for(int s = 0; s<=sum; s++){
-                dp[i][s] = dp[i+1][s];
+                curr[s] = next[s];
                 if(nums[i]<=s){
-                    dp[i][s] = min(dp[i][s], dp[i+1][s-nums[i]]);
+                    curr[s] = min(curr[s], next[s-nums[i]]);
                 }
                 int bb = nums[i], op = 0;
                 while(bb>0){
                     bb/=2; op++;
                     if(bb<=s){
-                        dp[i][s] = min(dp[i][s], op + dp[i+1][s-bb]);
+                        curr[s] = min(curr[s], op + next[s-bb]);
                     }
                 }
                 bb = nums[i], op = 0;
                 while(bb<=s){
                     bb*=2; op++;
                     if(bb<=s){
-                        dp[i][s] = min(dp[i][s], op+ dp[i+1][s-bb]);
+                        curr[s] = min(curr[s], op + next[s-bb]);
                     }
                 }
             }
+            next = curr;
         }
-        return dp[0][sum] >= INF ? -1 : dp[0][sum];
+        return next[sum] >= INF ? -1 : next[sum];
     }
 };
