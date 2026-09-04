@@ -3,9 +3,9 @@ class Solution:
         ans = 0
         n = len(nums)
         for i in range(0,n):
-            largest = float('-inf')
-            smallest = float('inf')
-            for j in range(i,n):
+            largest = nums[i]
+            smallest = nums[i]
+            for j in range(i+1,n):
                 largest = max(largest,nums[j])
                 smallest = min(smallest, nums[j])
                 ans+=largest-smallest
