@@ -1,25 +1,18 @@
 class Solution {
 public:
 
-    int countScore(string s){
-        int n = s.size();
-        int cnt = 0;
-        for(int i = 0; i<n-1; i++){
-            if(s[i] == s[i+1]){
-                cnt++;
-            }
-        }
-        return cnt;
-    }
-
     int countRotations(string s, int k) {
         int ans = 0;
         int n = s.size();
+        int total = 0;
         for(int i = 0; i<n; i++){
-            if(countScore(s) == k){
-                ans++;
+            if(s[i] == s[(i+1) % n]){
+                total++;
             }
-            s = s.substr(1) + s[0];
+        }
+        for(int i = 0; i<n; i++){
+            int score = total - (s[(i-1+n)%n] == s[i]);
+            if(score == k) ans++;
         }
         return ans;
     }
