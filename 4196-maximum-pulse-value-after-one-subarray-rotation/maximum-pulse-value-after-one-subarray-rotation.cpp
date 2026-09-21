@@ -14,9 +14,9 @@ public:
         };
         long long bestDelta = 0;
         for(int r = 1; r<n; r++){
-            int parity = (r+1)%2;
-            if(maxPrefix[parity] != LLONG_MIN){
-                long long delta = 2 * (maxPrefix[parity] - prefix[r+1]);
+            int k = (r+1)%2;
+            if(maxPrefix[k] != LLONG_MIN){
+                long long delta = 2 * (maxPrefix[k] - prefix[r+1]);
                 bestDelta = max(delta, bestDelta);
             }
             int p = r%2;
