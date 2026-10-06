@@ -1,7 +1,13 @@
+struct PairHash {
+    size_t operator()(const pair<int,int>& p) const {
+        return ((uint64_t)p.first << 32) ^ (uint32_t)p.second;
+    }
+};
+
 class Solution {
 public:
     int maxEqualAdjacentPairs(vector<int>& nums) {
-        map<pair<int,int>,int> cnt;
+        unordered_map<pair<int,int>,int, PairHash> cnt;
         int base = 0;
         for(int i = 0; i+1<nums.size(); i++){
             int a = nums[i];
