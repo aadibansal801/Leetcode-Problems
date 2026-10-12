@@ -11,25 +11,22 @@
  */
 class Solution {
 public:
+    unordered_map<long long, int> prefix;
     int ans = 0;
     int pathSum(TreeNode* root, int targetSum) {
         ans = 0;
-        dfs(root, targetSum);
+        prefix.clear();
+        prefix[0] = 1;
+        dfs(root, 0, targetSum);
         return ans;
     }
-    void dfs(TreeNode* root, int targetSum){
+    void dfs(TreeNode* root, long long currSum, int targetSum){
         if(!root) return;
-        findPaths(root, 0, targetSum);
-        dfs(root->left, targetSum);
-        dfs(root->right, targetSum);
-    }
-    void findPaths(TreeNode* node, long long sum, int targetSum){
-        if(!node) return;
-        sum+=node->val;
-        if(sum==targetSum){
-            ans++;
-        }
-        findPaths(node->left, sum, targetSum);
-        findPaths(node->right, sum, targetSum);
+        currSum += root->val;
+        ans += prefix[currSum - targetSum];
+        prefix[currSum]++;
+        dfs(root->left, currSum, targetSum);
+        dfs(root->right, currSum, targetSum);
+        prefix[currSum]--;
     }
 };
