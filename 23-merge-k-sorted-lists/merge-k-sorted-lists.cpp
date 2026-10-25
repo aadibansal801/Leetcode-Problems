@@ -28,12 +28,18 @@ public:
         return dummy.next;
     }
 
+    ListNode* merge(vector<ListNode*>&lists, int left, int right){
+        if(left == right){
+            return lists[left];
+        }
+        int mid = left + (right - left) / 2;
+        ListNode* a = merge(lists, left, mid);
+        ListNode* b = merge(lists, mid+1, right);
+        return merge2Lists(a,b);
+    }
+
     ListNode* mergeKLists(vector<ListNode*>& lists) {
         if(lists.empty()) return nullptr;
-        ListNode* ans = lists[0];
-        for(int i = 1; i<lists.size(); i++){
-            ans = merge2Lists(ans, lists[i]);
-        }
-        return ans;
+        return merge(lists, 0, lists.size()-1);
     }
 };
