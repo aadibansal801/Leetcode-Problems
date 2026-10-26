@@ -1,24 +1,43 @@
 class Twitter {
 public:
 
-    vector<pair<int,int>> tweets;
+    struct Tweet{
+        int id;
+        int time;
+    };
+
+
+    unordered_map<int, vector<Tweet>> tweets;
     unordered_map<int, unordered_set<int>> following;
+    int timeStamp = 0;
 
     Twitter() {
         
     }
     
     void postTweet(int userId, int tweetId) {
-        tweets.push_back({userId, tweetId});
+        tweets[userId].push_back({tweetId, timeStamp++});
     }
     
     vector<int> getNewsFeed(int userId) {
         vector<int>feed;
-        for(int i = tweets.size() - 1; i >= 0 && feed.size() < 10; i--){
-            int author = tweets[i].first;
-            int tweet = tweets[i].second;
-            if(author == userId || following[userId].count(author)){
-                feed.push_back(tweet);
+        using T = tuple<int,int,int>;
+        priority_queue<T>pq;
+        unordered_set<int> users = following[userId];
+        users.insert(userId);
+        for(int uid: users){
+            if(!tweets[uid].empty()){
+                int idx = tweets[uid].size()-1;
+                pq.push({tweets[uid][idx].time, uid, idx});
+            }
+        }
+        while(!pq.empty() && feed.size() < 10){
+            auto [time, uid, idx] = pq.top();
+            pq.pop();
+            feed.push_back(tweets[uid][idx].id);
+            if(idx > 0){
+                int newIdx = idx-1;
+                pq.push({tweets[uid][newIdx].time, uid, newIdx});
             }
         }
         return feed;
