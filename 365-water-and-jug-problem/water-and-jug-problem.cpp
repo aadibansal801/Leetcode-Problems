@@ -1,11 +1,10 @@
 class Solution {
 public:
 
-    set<pair<int,int>>visited;
-
+    vector<vector<bool>> dp;
     bool canMeasureWater(int x, int y, int target) {
         if(target > x + y) return false;
-        visited.clear();
+        dp.assign(x+1,vector<bool>(y+1, false));
         return dfs(0,0,x,y,target);
     }
 
@@ -13,8 +12,8 @@ public:
         if(a == target || b == target || a + b == target){
             return true;
         }
-        if(visited.count({a,b})) return false;
-        visited.insert({a,b});
+        if(dp[a][b]) return false;
+        dp[a][b] = true;
         if(dfs(x,b,x,y,target)) return true;
         if(dfs(a,y,x,y,target)) return true;
         if(dfs(0,b,x,y,target)) return true;
