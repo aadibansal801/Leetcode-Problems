@@ -12,31 +12,22 @@
 class FindElements {
 public:
 
-    TreeNode* root = nullptr;
+    unordered_set<int>st;
 
     FindElements(TreeNode* root) {
-        root->val = 0;
-        this->root = root;
+        solve(root, 0);
     }
 
-    bool solve(TreeNode* root, int target){
-        if(!root) return false;
-        if(root->val == target) return true;
-        bool left = false;
-        bool right = false;
-        if(root->left){
-            root->left->val = 2 * root->val + 1;
-            left = solve(root->left, target);
-        }
-        if(root->right){
-            root->right->val = 2 * root->val + 2;
-            right = solve(root->right, target);
-        }
-        return left || right;
+    void solve(TreeNode* root, int val){
+        if(!root) return;
+        root->val = val;
+        st.insert(val);
+        solve(root->left, 2*val+1);
+        solve(root->right, 2*val+2);
     }
     
     bool find(int target) {
-        return solve(root, target);
+        return st.count(target);
     }
 };
 
