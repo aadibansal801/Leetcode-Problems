@@ -11,8 +11,9 @@ public:
         for(int i = 0; i<n; i++){
             if(extra >= need[i]){
                 extra-=need[i];
-                need[i] = 0;
                 cnt++;
+            }else{
+                break;
             }
         }
         return cnt;
