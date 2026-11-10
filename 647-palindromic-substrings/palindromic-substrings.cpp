@@ -9,7 +9,7 @@ public:
         }
         return ans;
     }
-    int solve(int i, int j, string s){
+    int solve(int i, int j, const string& s){
         int n = s.size();
         int cnt = 0;
         while(i>=0 && j<n && s[i] == s[j]){
