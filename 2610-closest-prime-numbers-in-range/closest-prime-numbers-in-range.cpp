@@ -1,29 +1,28 @@
 class Solution {
 public:
     vector<int> closestPrimes(int left, int right) {
-        vector<int>primes;
-        for(int i = left; i<=right; i++){
-            if(isPrime(i)){
-                primes.push_back(i);
+        vector<bool> isPrime(right+1, true);
+        isPrime[0] = false;
+        isPrime[1] = false;
+        for(int i = 2; i*i<=right; i++){
+            if(isPrime[i]){
+                for(int j = i*i; j<=right; j+=i){
+                    isPrime[j] = false;
+                }
             }
         }
-        if(primes.size() < 2) return {-1,-1};
+        int prev = -1;
         int mini = INT_MAX;
-        vector<int>ans(2);
-        for(int i = 1; i<primes.size(); i++){
-            int diff = primes[i] - primes[i-1];
-            if(diff < mini){
-                mini = diff;
-                ans = {primes[i-1], primes[i]};
+        vector<int>ans = {-1,-1};
+        for(int i = left; i<=right; i++){
+            if(isPrime[i]){
+                if(prev!=-1 && i-prev<mini){
+                    mini = i-prev;
+                    ans = {prev,i};
+                }
+                prev = i;
             }
         }
         return ans;
-    }
-    bool isPrime(int n){
-        if(n<2) return false;
-        for(int i = 2; i*i <=n; i++){
-            if(n%i==0) return false;
-        }
-        return true;
     }
 };
