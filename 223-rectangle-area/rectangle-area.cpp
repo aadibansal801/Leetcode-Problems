@@ -11,18 +11,16 @@ public:
 
         int ans = areaA + areaB;
 
-        if(max(ax1, bx1) < min(ax2, bx2) && max(ay1, by1) < min(ay2, by2)){
-            int x1 = max(ax1, bx1);
-            int x2 = min(ax2, bx2);
-            int width = x2 - x1;
+        int x1 = max(ax1, bx1);
+        int x2 = min(ax2, bx2);
+        int width = max(0, x2-x1);
 
-            int y1 = max(ay1, by1);
-            int y2 = min(ay2, by2);
-            int height = y2 - y1;
+        int y1 = max(ay1, by1);
+        int y2 = min(ay2, by2);
+        int height = max(0, y2 - y1);
 
-            int area = width * height;
-            ans = ans - area;
-        }
+        int area = width * height;
+        ans = ans - area;
 
         return ans;
     }
